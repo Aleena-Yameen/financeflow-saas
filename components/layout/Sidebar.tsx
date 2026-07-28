@@ -1,9 +1,37 @@
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  BarChart3,
+  Settings,
+} from "lucide-react";
+
 const menuItems = [
-  "Dashboard",
-  "Clients",
-  "Invoices",
-  "Reports",
-  "Settings",
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    label: "Clients",
+    href: "/clients",
+    icon: Users,
+  },
+  {
+    label: "Invoices",
+    href: "/invoices",
+    icon: FileText,
+  },
+  {
+    label: "Reports",
+    href: "/reports",
+    icon: BarChart3,
+  },
+  {
+    label: "Settings",
+    href: "/settings",
+    icon: Settings,
+  },
 ];
 
 export default function Sidebar() {
@@ -17,14 +45,20 @@ export default function Sidebar() {
 
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
-          {menuItems.map((item) => (
-            <li
-              key={item}
-              className="rounded-lg px-4 py-3 hover:bg-slate-800 cursor-pointer transition-colors"
-            >
-              {item}
-            </li>
-          ))}
+          {menuItems.map((item) => {
+  const Icon = item.icon;
+
+  return (
+    <li
+      key={item.label}
+      className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-slate-800 cursor-pointer transition-colors"
+    >
+      <Icon className="h-5 w-5 text-slate-400" />
+
+      <span>{item.label}</span>
+    </li>
+  );
+})}
         </ul>
       </nav>
 
