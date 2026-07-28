@@ -1,3 +1,6 @@
+"use client";
+
+import Link from "next/link"; import { usePathname } from "next/navigation"; 
 import {
   LayoutDashboard,
   Users,
@@ -35,6 +38,7 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
   return (
     <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col">
       <div className="p-6 border-b border-slate-800">
@@ -45,20 +49,11 @@ export default function Sidebar() {
 
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
-          {menuItems.map((item) => {
-  const Icon = item.icon;
-
-  return (
-    <li
-      key={item.label}
-      className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-slate-800 cursor-pointer transition-colors"
-    >
-      <Icon className="h-5 w-5 text-slate-400" />
-
-      <span>{item.label}</span>
-    </li>
-  );
-})}
+          {menuItems.map((item) => 
+            { const Icon = item.icon; 
+            const isActive = pathname === item.href;
+             return ( <li key={item.label}> 
+             <Link href={item.href} className={`flex items-center gap-3 rounded-lg px-4 py-3 transition-colors ${ isActive ? "bg-indigo-500 text-white" : "text-slate-300 hover:bg-slate-800 hover:text-white" }`} > <Icon className="h-5 w-5" /> <span>{item.label}</span> </Link> </li> ); })}
         </ul>
       </nav>
 
