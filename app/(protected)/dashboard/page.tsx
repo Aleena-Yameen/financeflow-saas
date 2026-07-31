@@ -8,6 +8,36 @@ import {
 
 import StatCard from "@/components/ui/StatCard";
 
+const stats = [
+  {
+    title: "Total Revenue",
+    value: "$42,580",
+    change: "+12% this month",
+    changeColor: "text-emerald-400",
+    icon: DollarSign,
+  },
+  {
+    title: "Clients",
+    value: "148",
+    change: "+8 this month",
+    changeColor: "text-blue-400",
+    icon: Users,
+  },
+  {
+    title: "Invoices",
+    value: "84",
+    change: "6 unpaid",
+    changeColor: "text-orange-400",
+    icon: FileText,
+  },
+  {
+    title: "Outstanding",
+    value: "$6,450",
+    change: "3 overdue",
+    changeColor: "text-red-400",
+    icon: Wallet,
+  },
+];
 export default function DashboardPage() {
   return (
     <div>
@@ -22,37 +52,14 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          title="Total Revenue"
-          value="$42,580"
-          change="+12% this month"
-          icon={DollarSign}
-          changeColor="text-emerald-400"
-        />
-
-        <StatCard
-          title="Clients"
-          value="148"
-          change="+8 this month"
-          icon={Users}
-          changeColor="text-blue-400"
-        />
-
-        <StatCard
-          title="Invoices"
-          value="84"
-          change="6 unpaid"
-          icon={FileText}
-          changeColor="text-orange-400"
-        />
-
-        <StatCard
-          title="Outstanding"
-          value="$6,450"
-          change="3 overdue"
-          icon={Wallet}
-          changeColor="text-red-400"
-        />
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+  {stats.map((stat) => (
+    <StatCard
+  key={stat.title}
+  {...stat}
+/>
+  ))}
+</div>
       </div>
     </div>
   );
