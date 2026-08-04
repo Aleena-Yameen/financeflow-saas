@@ -8,7 +8,7 @@ import {
 
 import InvoiceTable from "@/components/dashboard/InvoiceTable";
 import StatCard from "@/components/ui/StatCard";
-
+import RevenueChart from "@/components/dashboard/RevenueChart";
 const stats = [
   {
     title: "Total Revenue",
@@ -74,6 +74,15 @@ const invoices = [
     date: "Jul 17, 2026",
   },
 ];
+const revenueData = [
+  { month: "Jan", revenue: 4200 },
+  { month: "Feb", revenue: 5100 },
+  { month: "Mar", revenue: 4700 },
+  { month: "Apr", revenue: 6200 },
+  { month: "May", revenue: 5900 },
+  { month: "Jun", revenue: 7100 },
+  { month: "Jul", revenue: 8200 },
+];
 export default function DashboardPage() {
   return (
     <div className="space-y-8">
@@ -95,7 +104,7 @@ export default function DashboardPage() {
       />
     ))}
   </div>
-
+<RevenueChart data={revenueData} />
   <InvoiceTable invoices={invoices} />
 </div>
   );
