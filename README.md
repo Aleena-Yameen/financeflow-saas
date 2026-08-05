@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 FinanceFlow SaaS
 
-## Getting Started
+A modern Finance SaaS dashboard built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **Recharts**. FinanceFlow is designed to provide businesses with a clean and intuitive interface for tracking revenue, managing clients, and monitoring invoices.
 
-First, run the development server:
+## 🚀 Live Demo
+
+**Live Website:** https://financeflow-saas.vercel.app/
+
+## 📂 GitHub Repository
+
+https://github.com/Aleena-Yameen/financeflow-saas
+
+---
+
+## ✨ Features
+
+* 📊 Interactive revenue analytics dashboard
+* 👥 Client management page
+* 📄 Invoice overview table
+* 📈 KPI statistic cards
+* 🎨 Modern dark UI
+* 📱 Fully responsive layout
+* ⚡ Built with the Next.js App Router
+* ♻️ Reusable React components
+* 🔒 Scalable project structure
+
+---
+
+## 🛠️ Tech Stack
+
+* Next.js 16
+* React
+* TypeScript
+* Tailwind CSS
+* Recharts
+* Lucide React
+* Git & GitHub
+* Vercel
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+
+*Add dashboard screenshot here*
+
+### Clients
+
+*Add clients page screenshot here*
+
+---
+
+## 📁 Project Structure
+
+```text
+app/
+ ├── (protected)/
+ │   ├── dashboard/
+ │   ├── clients/
+ │   ├── invoices/
+ │   ├── reports/
+ │   └── settings/
+ │
+components/
+ ├── dashboard/
+ ├── clients/
+ ├── layout/
+ └── ui/
+```
+
+---
+
+## ⚙️ Getting Started
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/financeflow-saas.git
+```
+
+Navigate to the project:
+
+```bash
+cd financeflow-saas
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and visit:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🎯 Project Goals
 
-To learn more about Next.js, take a look at the following resources:
+This project was built to practice and demonstrate modern frontend development using Next.js and TypeScript while following scalable SaaS architecture and reusable component design.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Upcoming features include:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Authentication
+* Client search
+* Add Client modal
+* Invoice management
+* Reports
+* Settings
+* Backend integration
+* Database support
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🤝 Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions, suggestions, and feedback are welcome. Feel free to fork the repository and submit a pull request.
+
+---
+
+## 📄 License
+
+This project is available for learning and portfolio purposes.
+
