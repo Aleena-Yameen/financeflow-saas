@@ -1,6 +1,6 @@
 # 💰 FinanceFlow SaaS
 
-A modern Finance SaaS dashboard built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **Recharts**. FinanceFlow is designed to provide businesses with a clean and intuitive interface for tracking revenue, managing clients, and monitoring invoices.
+FinanceFlow is a modern Finance SaaS dashboard built with Next.js, TypeScript, Tailwind CSS, and Recharts. The project is currently under active development, with new features being added incrementally to simulate a real-world SaaS application.
 
 ## 🚀 Live Demo
 
