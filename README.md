@@ -39,18 +39,6 @@ https://github.com/Aleena-Yameen/financeflow-saas
 
 ---
 
-## 📸 Screenshots
-
-### Dashboard
-
-*Add dashboard screenshot here*
-
-### Clients
-
-*Add clients page screenshot here*
-
----
-
 ## 📁 Project Structure
 
 ```text

@@ -1,6 +1,6 @@
 "use client";
 import ClientModal from "@/components/clients/ClientModal";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import ClientCard from "@/components/clients/ClientCard";
 
 const initialClients = [
@@ -37,8 +37,27 @@ export default function ClientsPage() {
   const [clients, setClients] = useState(initialClients);
 const [isOpen, setIsOpen] = useState(false);
 const [search, setSearch] = useState("");
+const [isLoaded, setIsLoaded] = useState(false);
+useEffect(() => {
+  const savedClients = localStorage.getItem("financeflow-clients");
+
+  if (savedClients) {
+    setClients(JSON.parse(savedClients));
+  }
+
+  setIsLoaded(true);
+}, []);
+useEffect(() => {
+  if (!isLoaded) return;
+
+  localStorage.setItem(
+    "financeflow-clients",
+    JSON.stringify(clients)
+  );
+}, [clients, isLoaded]);
 const [selectedClient, setSelectedClient] =
   useState<(typeof initialClients)[number] | null>(null);
+  
 const filteredClients = clients.filter(
   (client) =>
     client.name.toLowerCase().includes(search.toLowerCase()) ||
