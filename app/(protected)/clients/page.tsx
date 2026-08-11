@@ -37,25 +37,51 @@ export default function ClientsPage() {
   const [clients, setClients] = useState(initialClients);
 const [isOpen, setIsOpen] = useState(false);
 const [search, setSearch] = useState("");
+const [selectedClient, setSelectedClient] =
+  useState<(typeof initialClients)[number] | null>(null);
 const filteredClients = clients.filter(
   (client) =>
     client.name.toLowerCase().includes(search.toLowerCase()) ||
     client.email.toLowerCase().includes(search.toLowerCase())
 );
-const handleAddClient = (newClient: {
-  name: string;
-  email: string;
-  status: "Active" | "Pending";
-}) => {
-  setClients((prev) => [
-    ...prev,
-    {
-      id: prev.length + 1,
-      ...newClient,
-      invoiceCount: 0,
-    },
-  ]);
+const handleSaveClient = (
+  clientData: {
+    name: string;
+    email: string;
+    status: "Active" | "Pending";
+  },
+  id?: number
+) => {
+  if (id) {
+    setClients((prev) =>
+      prev.map((client) =>
+        client.id === id
+          ? {
+              ...client,
+              ...clientData,
+            }
+          : client
+      )
+    );
+  } else {
+    setClients((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        ...clientData,
+        invoiceCount: 0,
+      },
+    ]);
+  }
+
+  setSelectedClient(null);
 };
+ const handleDeleteClient = (id: number) => {
+    setClients((prev) =>
+      prev.filter((client) => client.id !== id)
+    );
+  };
+
   return (
   <div>
     <div className="mb-8 flex items-center justify-between">
@@ -92,16 +118,25 @@ const handleAddClient = (newClient: {
     <ClientCard
       key={client.id}
       client={client}
+       onDelete={handleDeleteClient}
+        onEdit={(client) => {
+    setSelectedClient(client);
+    setIsOpen(true);
+  }}
     />
   ))}
 </div>
     <ClientModal
   isOpen={isOpen}
-  onClose={() => setIsOpen(false)}
-  onSave={handleAddClient}
+  onClose={() => {
+    setIsOpen(false);
+    setSelectedClient(null);
+  }}
+  onSave={handleSaveClient}
+  client={selectedClient}
 />
-
   </div>
+  
   
 );
 }
