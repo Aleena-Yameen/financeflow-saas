@@ -7,7 +7,11 @@ import {
    DollarSign,
 } from "lucide-react";
 
+import { useState } from "react";
+
 export default function SettingsPage() {
+  const [emailNotifications, setEmailNotifications] = useState(true);
+const [invoiceReminders, setInvoiceReminders] = useState(true);
   return (
     <div>
       <div className="mb-8">
@@ -56,12 +60,20 @@ export default function SettingsPage() {
           <div className="space-y-3">
             <label className="flex items-center justify-between">
               <span>Email Notifications</span>
-              <input type="checkbox" />
+              <input
+  type="checkbox"
+  checked={emailNotifications}
+  onChange={(e) => setEmailNotifications(e.target.checked)}
+/>
             </label>
 
             <label className="flex items-center justify-between">
               <span>Invoice Reminders</span>
-              <input type="checkbox" />
+              <input
+  type="checkbox"
+  checked={invoiceReminders}
+  onChange={(e) => setInvoiceReminders(e.target.checked)}
+/>
             </label>
           </div>
         </div>
@@ -101,7 +113,7 @@ export default function SettingsPage() {
             <option value="PKR">PKR — Pakistani Rupee</option>
           </select>
         </div>
-        
+
         <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
           <div className="mb-4 flex items-center gap-3">
             <Palette className="text-pink-400" />
