@@ -78,14 +78,14 @@ const stats = [
   },
   {
     title: "Clients",
-    value: totalClients,
+    value: String(totalClients),
     change: "+8 this month",
     changeColor: "text-blue-400",
     icon: Users,
   },
   {
     title: "Invoices",
-    value: totalInvoices,
+    value: String(totalInvoices),
     change: "6 unpaid",
     changeColor: "text-orange-400",
     icon: FileText,
