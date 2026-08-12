@@ -1,6 +1,6 @@
 "use client";
 import InvoiceTable from "@/components/invoices/InvoiceTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InvoiceModal from "@/components/invoices/InvoiceModal";
 
 const initialInvoices = [
@@ -41,7 +41,28 @@ const initialInvoices = [
 export default function InvoicesPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [invoices, setInvoices] = useState(initialInvoices);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+  const savedInvoices = localStorage.getItem("financeflow-invoices");
+
+  if (savedInvoices) {
+    setInvoices(JSON.parse(savedInvoices));
+  }
+
+  setIsLoaded(true);
+}, []);
+
+useEffect(() => {
+  if (!isLoaded) return;
+
+  localStorage.setItem(
+    "financeflow-invoices",
+    JSON.stringify(invoices)
+  );
+}, [invoices, isLoaded]);
+
   const handleAddInvoice = (newInvoice: {
   client: string;
   amount: string;

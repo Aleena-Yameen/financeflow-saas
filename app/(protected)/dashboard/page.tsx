@@ -1,3 +1,4 @@
+"use client";
 import {
   DollarSign,
   Users,
@@ -6,41 +7,10 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
-
+import { useEffect, useState } from "react";
 import InvoiceTable from "@/components/dashboard/InvoiceTable";
 import StatCard from "@/components/ui/StatCard";
 import RevenueChart from "@/components/dashboard/RevenueChart";
-
-const stats = [
-  {
-    title: "Total Revenue",
-    value: "$42,580",
-    change: "+12% this month",
-    changeColor: "text-emerald-400",
-    icon: DollarSign,
-  },
-  {
-    title: "Clients",
-    value: "148",
-    change: "+8 this month",
-    changeColor: "text-blue-400",
-    icon: Users,
-  },
-  {
-    title: "Invoices",
-    value: "84",
-    change: "6 unpaid",
-    changeColor: "text-orange-400",
-    icon: FileText,
-  },
-  {
-    title: "Outstanding",
-    value: "$6,450",
-    change: "3 overdue",
-    changeColor: "text-red-400",
-    icon: Wallet,
-  },
-];
 
 const invoices = [
   {
@@ -76,6 +46,60 @@ const invoices = [
     date: "Jul 17, 2026",
   },
 ];
+
+export default function DashboardPage() {
+  const [clients, setClients] = useState([]);
+const [invoices, setInvoices] = useState([]);
+  useEffect(() => {
+  const savedClients = localStorage.getItem("financeflow-clients");
+
+  if (savedClients) {
+    setClients(JSON.parse(savedClients));
+  }
+}, []);
+
+useEffect(() => {
+  const savedInvoices = localStorage.getItem("financeflow-invoices");
+
+  if (savedInvoices) {
+    setInvoices(JSON.parse(savedInvoices));
+  }
+}, []);
+
+const totalClients = clients.length;
+const totalInvoices = invoices.length;
+const stats = [
+  {
+    title: "Total Revenue",
+    value: "$42,580",
+    change: "+12% this month",
+    changeColor: "text-emerald-400",
+    icon: DollarSign,
+  },
+  {
+    title: "Clients",
+    value: totalClients,
+    change: "+8 this month",
+    changeColor: "text-blue-400",
+    icon: Users,
+  },
+  {
+    title: "Invoices",
+    value: totalInvoices,
+    change: "6 unpaid",
+    changeColor: "text-orange-400",
+    icon: FileText,
+  },
+  {
+    title: "Outstanding",
+    value: "$6,450",
+    change: "3 overdue",
+    changeColor: "text-red-400",
+    icon: Wallet,
+  },
+];
+
+
 const revenueData = [
   { month: "Jan", revenue: 4200 },
   { month: "Feb", revenue: 5100 },
@@ -86,7 +110,7 @@ const revenueData = [
   { month: "Jul", revenue: 8200 },
 ];
 
-export default function DashboardPage() {
+
   return (
     <div className="space-y-8">
   <div className="mb-8">
