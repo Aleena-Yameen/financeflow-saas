@@ -6,9 +6,11 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
+
 import InvoiceTable from "@/components/dashboard/InvoiceTable";
 import StatCard from "@/components/ui/StatCard";
 import RevenueChart from "@/components/dashboard/RevenueChart";
+
 const stats = [
   {
     title: "Total Revenue",
@@ -83,6 +85,7 @@ const revenueData = [
   { month: "Jun", revenue: 7100 },
   { month: "Jul", revenue: 8200 },
 ];
+
 export default function DashboardPage() {
   return (
     <div className="space-y-8">

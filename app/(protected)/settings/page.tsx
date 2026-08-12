@@ -4,6 +4,7 @@ import {
   Shield,
   Palette,
   Save,
+   DollarSign,
 } from "lucide-react";
 
 export default function SettingsPage() {
@@ -78,6 +79,29 @@ export default function SettingsPage() {
           </button>
         </div>
 
+        <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+          <div className="mb-4 flex items-center gap-3">
+            <DollarSign className="text-green-400" />
+            <h2 className="text-xl font-semibold">
+              Currency
+            </h2>
+          </div>
+
+          <p className="mb-4 text-sm text-slate-400">
+            Choose the default currency for your invoices.
+          </p>
+
+          <select
+            defaultValue="USD"
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-indigo-500"
+          >
+            <option value="USD">USD — US Dollar</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="PKR">PKR — Pakistani Rupee</option>
+          </select>
+        </div>
+        
         <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
           <div className="mb-4 flex items-center gap-3">
             <Palette className="text-pink-400" />
