@@ -49,8 +49,16 @@ const invoices = [
 
 export default function DashboardPage() {
   const [clients, setClients] = useState([]);
-const [invoices, setInvoices] = useState([]);
-  useEffect(() => {
+const [invoices, setInvoices] = useState<
+  {
+    id: number;
+    invoice: string;
+    client: string;
+    amount: string;
+    status: "Paid" | "Pending" | "Overdue";
+    date: string;
+  }[]
+>([]);  useEffect(() => {
   const savedClients = localStorage.getItem("financeflow-clients");
 
   if (savedClients) {
@@ -68,10 +76,30 @@ useEffect(() => {
 
 const totalClients = clients.length;
 const totalInvoices = invoices.length;
+const totalRevenue = invoices.reduce((total, invoice) => {
+  const amount = Number(invoice.amount.replace(/[$,]/g, ""));
+  return total + amount;
+}, 0);
+
+const outstandingAmount = invoices
+  .filter(
+    (invoice) =>
+      invoice.status === "Pending" ||
+      invoice.status === "Overdue"
+  )
+  .reduce((total, invoice) => {
+    const amount = Number(invoice.amount.replace(/[$,]/g, ""));
+    return total + amount;
+  }, 0);
+
+  const overdueCount = invoices.filter(
+  (invoice) => invoice.status === "Overdue"
+).length;
+
 const stats = [
   {
     title: "Total Revenue",
-    value: "$42,580",
+   value: `$${totalRevenue.toLocaleString()}`,
     change: "+12% this month",
     changeColor: "text-emerald-400",
     icon: DollarSign,
@@ -92,8 +120,8 @@ const stats = [
   },
   {
     title: "Outstanding",
-    value: "$6,450",
-    change: "3 overdue",
+    value:  `$${outstandingAmount.toLocaleString()}`,
+    change: `${overdueCount} overdue`,
     changeColor: "text-red-400",
     icon: Wallet,
   },
