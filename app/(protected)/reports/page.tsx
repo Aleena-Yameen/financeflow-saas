@@ -127,6 +127,43 @@ const revenueChartData = monthOrder
     month,
     revenue: monthlyRevenue[month],
   }));
+
+  const clientStats = invoices.reduce(
+  (
+    acc: Record<
+      string,
+      {
+        revenue: number;
+        invoiceCount: number;
+      }
+    >,
+    invoice
+  ) => {
+    const amount = Number(invoice.amount.replace(/[$,]/g, ""));
+
+    if (!acc[invoice.client]) {
+      acc[invoice.client] = {
+        revenue: 0,
+        invoiceCount: 0,
+      };
+    }
+
+    acc[invoice.client].revenue += amount;
+    acc[invoice.client].invoiceCount += 1;
+
+    return acc;
+  },
+  {}
+);
+
+const clientRevenueData = Object.entries(clientStats)
+  .map(([client, stats]) => ({
+    client,
+    revenue: stats.revenue,
+    invoiceCount: stats.invoiceCount,
+  }))
+  .sort((a, b) => b.revenue - a.revenue);
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -202,6 +239,36 @@ const revenueChartData = monthOrder
       </div>
 
       <RevenueChart data={revenueChartData} />
+
+      <div className="mt-8 rounded-xl border border-slate-800 bg-slate-900 p-6">
+  <h2 className="mb-6 text-xl font-semibold">
+    Client Revenue
+  </h2>
+
+  <div className="space-y-4">
+    {clientRevenueData.map((client) => (
+      <div
+        key={client.client}
+        className="flex items-center justify-between rounded-lg bg-slate-800 p-4"
+      >
+        <div>
+  <p className="font-medium">
+    {client.client}
+  </p>
+
+  <p className="text-sm text-slate-400">
+    {client.invoiceCount}{" "}
+    {client.invoiceCount === 1 ? "invoice" : "invoices"}
+  </p>
+</div>
+
+<span className="font-semibold text-emerald-400">
+  ${client.revenue.toLocaleString()}
+</span>
+      </div>
+    ))}
+  </div>
+</div>
     </div>
   );
 }
