@@ -1,26 +1,58 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 type NewInvoice = {
   client: string;
   amount: string;
   status: "Paid" | "Pending" | "Overdue";
   date: string;
 };
+
+type Invoice = {
+  id: number;
+  invoice: string;
+  client: string;
+  amount: string;
+  status: "Paid" | "Pending" | "Overdue";
+  date: string;
+};
+
 type InvoiceModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSave: (invoice: NewInvoice) => void;
+  editingInvoice?: Invoice | null;
 };
 
 export default function InvoiceModal({
   isOpen,
   onClose,
   onSave,
+  editingInvoice,
 }: InvoiceModalProps) {
     const [client, setClient] = useState("");
 const [amount, setAmount] = useState("");
-const [status, setStatus] = useState("Pending");
+const [status, setStatus] = useState<"Paid" | "Pending" | "Overdue">(
+  "Pending"
+);
 const [date, setDate] = useState("");
+useEffect(() => {
+  if (editingInvoice) {
+    setClient(editingInvoice.client);
+    setAmount(editingInvoice.amount);
+    setStatus(editingInvoice.status);
+
+    const parsedDate = new Date(editingInvoice.date);
+
+    if (!isNaN(parsedDate.getTime())) {
+      setDate(parsedDate.toISOString().split("T")[0]);
+    }
+  } else {
+    setClient("");
+    setAmount("");
+    setStatus("Pending");
+    setDate("");
+  }
+}, [editingInvoice, isOpen]);
 const handleSave = () => {
   if (!client || !amount || !date) {
     alert("Please fill in all fields.");
@@ -48,7 +80,7 @@ const handleSave = () => {
       <div className="w-full max-w-md rounded-xl bg-slate-900 p-6 shadow-xl">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold">
-            New Invoice
+           {editingInvoice ? "Edit Invoice" : "New Invoice"}
           </h2>
 
           <button
@@ -96,7 +128,9 @@ const handleSave = () => {
 
     <select
       value={status}
-      onChange={(e) => setStatus(e.target.value)}
+      onChange={(e) =>
+  setStatus(e.target.value as "Paid" | "Pending" | "Overdue")
+}
       className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 outline-none focus:border-indigo-500"
     >
       <option>Paid</option>
@@ -132,7 +166,7 @@ const handleSave = () => {
   onClick={handleSave}
   className="rounded-lg bg-indigo-600 px-4 py-2 transition-colors hover:bg-indigo-500"
 >
-  Save Invoice
+  {editingInvoice ? "Update Invoice" : "Save Invoice"}
 </button>
 </div>
       </div>

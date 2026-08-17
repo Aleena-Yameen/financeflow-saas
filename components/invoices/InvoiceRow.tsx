@@ -1,3 +1,5 @@
+import { Pencil } from "lucide-react";
+
 type Invoice = {
   id: number;
   invoice: string;
@@ -9,10 +11,12 @@ type Invoice = {
 
 type InvoiceRowProps = {
   invoice: Invoice;
+  onEdit: (invoice: Invoice) => void;
 };
 
 export default function InvoiceRow({
   invoice,
+  onEdit,
 }: InvoiceRowProps) {
   const statusColor =
     invoice.status === "Paid"
@@ -41,6 +45,16 @@ export default function InvoiceRow({
       </td>
 
       <td className="px-6 py-4 text-slate-400">{formattedDate}</td>
+
+      <td className="px-6 py-4">
+  <button
+  onClick={() => onEdit(invoice)}
+  className="flex items-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-sm transition-colors hover:bg-slate-700"
+>
+  <Pencil size={16} />
+  Edit
+</button>
+</td>
     </tr>
   );
 }

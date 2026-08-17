@@ -38,11 +38,21 @@ const initialInvoices = [
   },
 ];
 
+type Invoice = {
+  id: number;
+  invoice: string;
+  client: string;
+  amount: string;
+  status: "Paid" | "Pending" | "Overdue";
+  date: string;
+};
+
 export default function InvoicesPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [invoices, setInvoices] = useState(initialInvoices);
   const [isLoaded, setIsLoaded] = useState(false);
   const [search, setSearch] = useState("");
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
 
   useEffect(() => {
   const savedInvoices = localStorage.getItem("financeflow-invoices");
@@ -63,21 +73,42 @@ useEffect(() => {
   );
 }, [invoices, isLoaded]);
 
-  const handleAddInvoice = (newInvoice: {
+  const handleSaveInvoice = (newInvoice: {
   client: string;
   amount: string;
   status: "Paid" | "Pending" | "Overdue";
   date: string;
 }) => {
-  setInvoices((prev) => [
-    ...prev,
-    {
-      id: prev.length + 1,
-      invoice: `INV-${String(prev.length + 1).padStart(3, "0")}`,
-      ...newInvoice,
-    },
-  ]);
+  if (editingInvoice) {
+    setInvoices((prev) =>
+      prev.map((invoice) =>
+        invoice.id === editingInvoice.id
+          ? {
+              ...invoice,
+              ...newInvoice,
+            }
+          : invoice
+      )
+    );
+
+    setEditingInvoice(null);
+  } else {
+    setInvoices((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        invoice: `INV-${String(prev.length + 1).padStart(3, "0")}`,
+        ...newInvoice,
+      },
+    ]);
+  }
 };
+
+const handleEditInvoice = (invoice: Invoice) => {
+  setEditingInvoice(invoice);
+  setIsOpen(true);
+};
+
 const filteredInvoices = invoices.filter((invoice) =>
   invoice.client.toLowerCase().includes(search.toLowerCase()) ||
   invoice.invoice.toLowerCase().includes(search.toLowerCase())
@@ -113,11 +144,15 @@ const filteredInvoices = invoices.filter((invoice) =>
 </div>
       </div>
 
-<InvoiceTable invoices={filteredInvoices} />
-      <InvoiceModal
+<InvoiceTable
+  invoices={filteredInvoices}
+  onEdit={handleEditInvoice}
+/>    
+  <InvoiceModal
   isOpen={isOpen}
   onClose={() => setIsOpen(false)}
-  onSave={handleAddInvoice}
+  onSave={handleSaveInvoice}
+  editingInvoice={editingInvoice}
 />
 
     </div>
