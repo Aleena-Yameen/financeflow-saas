@@ -1,3 +1,4 @@
+"use client";
 import {
   BarChart3,
   TrendingUp,
@@ -5,7 +6,88 @@ import {
   Download,
 } from "lucide-react";
 
+import { useEffect, useState } from "react";
+
 export default function ReportsPage() {
+  const [invoices, setInvoices] = useState<
+  {
+    id: number;
+    invoice: string;
+    client: string;
+    amount: string;
+    status: "Paid" | "Pending" | "Overdue";
+    date: string;
+  }[]
+>([]);
+
+useEffect(() => {
+  const savedInvoices = localStorage.getItem("financeflow-invoices");
+
+  if (savedInvoices) {
+    setInvoices(JSON.parse(savedInvoices));
+  }
+}, []);
+
+const totalRevenue = invoices.reduce((total, invoice) => {
+  const amount = Number(invoice.amount.replace(/[$,]/g, ""));
+  return total + amount;
+}, 0);
+
+const paidInvoices = invoices.filter(
+  (invoice) => invoice.status === "Paid"
+).length;
+
+const outstandingAmount = invoices
+  .filter(
+    (invoice) =>
+      invoice.status === "Pending" ||
+      invoice.status === "Overdue"
+  )
+  .reduce((total, invoice) => {
+    const amount = Number(invoice.amount.replace(/[$,]/g, ""));
+    return total + amount;
+  }, 0);
+
+  const now = new Date();
+
+const currentMonth = now.getMonth();
+const currentYear = now.getFullYear();
+
+const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+const previousMonthYear =
+  currentMonth === 0 ? currentYear - 1 : currentYear;
+
+const getInvoiceAmount = (invoice: typeof invoices[number]) =>
+  Number(invoice.amount.replace(/[$,]/g, ""));
+
+const currentMonthRevenue = invoices
+  .filter((invoice) => {
+    const date = new Date(invoice.date);
+
+    return (
+      date.getMonth() === currentMonth &&
+      date.getFullYear() === currentYear
+    );
+  })
+  .reduce((total, invoice) => total + getInvoiceAmount(invoice), 0);
+
+const previousMonthRevenue = invoices
+  .filter((invoice) => {
+    const date = new Date(invoice.date);
+
+    return (
+      date.getMonth() === previousMonth &&
+      date.getFullYear() === previousMonthYear
+    );
+  })
+  .reduce((total, invoice) => total + getInvoiceAmount(invoice), 0);
+  const monthlyGrowth =
+  previousMonthRevenue === 0
+    ? 0
+    : ((currentMonthRevenue - previousMonthRevenue) /
+        previousMonthRevenue) *
+      100;
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -37,7 +119,7 @@ export default function ReportsPage() {
           </h3>
 
           <p className="mt-2 text-3xl font-bold">
-            $42,580
+             ${totalRevenue.toLocaleString()}
           </p>
         </div>
 
@@ -49,7 +131,8 @@ export default function ReportsPage() {
           </h3>
 
           <p className="mt-2 text-3xl font-bold">
-            +12%
+             {monthlyGrowth >= 0 ? "+" : ""}
+  {monthlyGrowth.toFixed(1)}%
           </p>
         </div>
 
@@ -61,7 +144,7 @@ export default function ReportsPage() {
           </h3>
 
           <p className="mt-2 text-3xl font-bold">
-            78
+            {paidInvoices}
           </p>
         </div>
 
@@ -73,7 +156,7 @@ export default function ReportsPage() {
           </h3>
 
           <p className="mt-2 text-3xl font-bold">
-            $6,450
+            ${outstandingAmount.toLocaleString()}
           </p>
         </div>
 
