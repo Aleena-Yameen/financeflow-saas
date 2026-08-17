@@ -164,6 +164,45 @@ const clientRevenueData = Object.entries(clientStats)
   }))
   .sort((a, b) => b.revenue - a.revenue);
 
+  const handleExportReport = () => {
+  const rows = [
+  ["Metric", "Value"],
+  ["Total Revenue", `$${totalRevenue.toLocaleString()}`],
+  ["Monthly Growth", `${monthlyGrowth.toFixed(1)}%`],
+  ["Paid Invoices", paidInvoices.toString()],
+  ["Outstanding", `$${outstandingAmount.toLocaleString()}`],
+  [],
+  ["Invoice", "Client", "Amount", "Status", "Date"],
+  ...invoices.map((invoice) => [
+    invoice.invoice,
+    invoice.client,
+    invoice.amount,
+    invoice.status,
+    invoice.date,
+  ]),
+];
+
+  const csvContent = rows
+    .map((row) => row.map((value) => `"${value}"`).join(","))
+    .join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = `financeflow-report-${new Date()
+    .toISOString()
+    .split("T")[0]}.csv`;
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -177,8 +216,10 @@ const clientRevenueData = Object.entries(clientStats)
           </p>
         </div>
 
-        <button className="rounded-lg bg-indigo-600 px-5 py-3 font-medium transition-colors hover:bg-indigo-500">
-          <span className="flex items-center gap-2">
+<button
+  onClick={handleExportReport}
+  className="rounded-lg bg-indigo-600 px-5 py-3 font-medium transition-colors hover:bg-indigo-500"
+>          <span className="flex items-center gap-2">
             <Download size={18} />
             Export Report
           </span>
