@@ -8,6 +8,7 @@ import {
 
 import { useEffect, useState } from "react";
 
+import RevenueChart from "@/components/dashboard/RevenueChart";
 export default function ReportsPage() {
   const [invoices, setInvoices] = useState<
   {
@@ -88,6 +89,44 @@ const previousMonthRevenue = invoices
         previousMonthRevenue) *
       100;
 
+      const monthlyRevenue = invoices.reduce(
+  (acc: Record<string, number>, invoice) => {
+    const date = new Date(invoice.date);
+
+    const month = date.toLocaleString("default", {
+      month: "short",
+    });
+
+    const amount = Number(invoice.amount.replace(/[$,]/g, ""));
+
+    acc[month] = (acc[month] || 0) + amount;
+
+    return acc;
+  },
+  {}
+);
+
+const monthOrder = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const revenueChartData = monthOrder
+  .filter((month) => monthlyRevenue[month] !== undefined)
+  .map((month) => ({
+    month,
+    revenue: monthlyRevenue[month],
+  }));
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -162,21 +201,7 @@ const previousMonthRevenue = invoices
 
       </div>
 
-      <div className="mt-8 rounded-xl border border-dashed border-slate-700 bg-slate-900 p-12 text-center">
-        <BarChart3
-          size={60}
-          className="mx-auto mb-4 text-slate-500"
-        />
-
-        <h2 className="text-2xl font-semibold">
-          Advanced Reports Coming Soon
-        </h2>
-
-        <p className="mt-3 text-slate-400">
-          Revenue trends, client analytics, invoice history,
-          and downloadable financial reports will appear here.
-        </p>
-      </div>
+      <RevenueChart data={revenueChartData} />
     </div>
   );
 }
