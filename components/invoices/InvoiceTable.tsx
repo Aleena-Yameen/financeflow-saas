@@ -12,11 +12,13 @@ type Invoice = {
 type InvoiceTableProps = {
   invoices: Invoice[];
   onEdit: (invoice: Invoice) => void;
+   onDelete: (id: number) => void;
 };
 
 export default function InvoiceTable({
   invoices,
   onEdit,
+  onDelete,
 }: InvoiceTableProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900">
@@ -38,6 +40,7 @@ export default function InvoiceTable({
               key={invoice.id}
               invoice={invoice}
               onEdit={onEdit}
+              onDelete={onDelete}
             />
           ))}
         </tbody>

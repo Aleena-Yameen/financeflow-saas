@@ -109,6 +109,18 @@ const handleEditInvoice = (invoice: Invoice) => {
   setIsOpen(true);
 };
 
+const handleDeleteInvoice = (id: number) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this invoice?"
+  );
+
+  if (!confirmed) return;
+
+  setInvoices((prev) =>
+    prev.filter((invoice) => invoice.id !== id)
+  );
+};
+
 const filteredInvoices = invoices.filter((invoice) =>
   invoice.client.toLowerCase().includes(search.toLowerCase()) ||
   invoice.invoice.toLowerCase().includes(search.toLowerCase())
@@ -147,6 +159,7 @@ const filteredInvoices = invoices.filter((invoice) =>
 <InvoiceTable
   invoices={filteredInvoices}
   onEdit={handleEditInvoice}
+  onDelete={handleDeleteInvoice}
 />    
   <InvoiceModal
   isOpen={isOpen}
